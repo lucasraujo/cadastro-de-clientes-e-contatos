@@ -7,6 +7,7 @@ import { AppError } from "../../errors";
 
 
 const getCompanyService = async (request: Request) => {
+
     const companyRepository: Repository<Company> = AppDataSource.getRepository(Company)
     const companyId : number = request.company.id
     const companyInDataBase = await  companyRepository.findOne({
@@ -21,6 +22,7 @@ const getCompanyService = async (request: Request) => {
 
     const res = await companyRepository.createQueryBuilder("company")
     .leftJoinAndSelect("company.clients","clients")
+    .leftJoinAndSelect("clients.contacts","contacts")
     .where("company.id = :idCompany",{idCompany: companyId})
     .getOne()
 
