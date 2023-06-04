@@ -47,16 +47,14 @@ const FormCreate = () => {
           <FormControl isInvalid={errors.companyName ? true : false}>
             <FormLabel pt={"20px"}>Company name</FormLabel>
             <Input type="text" {...register("companyName")}></Input>
-            {errors.companyName && (
-              <FormErrorMessage>{errors.companyName.message}</FormErrorMessage>
-            )}
+            <FormErrorMessage>{errors.companyName && (errors.companyName.message?.toString())}</FormErrorMessage>
           </FormControl>
 
           <FormControl isInvalid={errors.email ? true : false}>
             <FormLabel pt={"20px"}>Email</FormLabel>
             <Input type="text" {...register("email")}></Input>
             {errors.email && (
-              <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+              <FormErrorMessage>{errors.email.message?.toString()}</FormErrorMessage>
             )}
           </FormControl>
 
@@ -64,7 +62,7 @@ const FormCreate = () => {
             <FormLabel pt={"20px"}>Password</FormLabel>
             <Input type="password" {...register("password")}></Input>
             {errors.password && (
-              <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+              <FormErrorMessage>{errors.password.message?.toString()}</FormErrorMessage>
             )}
           </FormControl>
 
@@ -76,7 +74,7 @@ const FormCreate = () => {
             <Input type="password" {...register("comfirmPassword")}></Input>
             {errors.comfirmPassword && (
               <FormErrorMessage>
-                {errors.comfirmPassword.message}
+                {errors.comfirmPassword.message?.toString()}
               </FormErrorMessage>
             )}
           </FormControl>

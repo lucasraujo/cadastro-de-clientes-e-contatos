@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import { CompanyContextProvider } from "./context/companyContext";
+import { ClientContextProvider } from "./context/clientContext";
+import { ContactContextProvider } from "./context/contactContext";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Failed to find the root element");
@@ -15,9 +17,13 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ColorModeScript />
-      <CompanyContextProvider>
-        <App />
-      </CompanyContextProvider>
+        <CompanyContextProvider>
+            <ClientContextProvider>
+              <ContactContextProvider>
+                <App />
+              </ContactContextProvider>
+            </ClientContextProvider>
+        </CompanyContextProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

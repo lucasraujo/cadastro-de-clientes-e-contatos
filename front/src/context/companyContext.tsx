@@ -1,18 +1,23 @@
-import { createContext } from "react";
+import { Dispatch, ReactNode, createContext, useState } from "react";
 import { ICreateData } from "../components/formCreate/validator";
 import { ILoguin } from "../components/formLogin/validators";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../services/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { ICompany } from "../interfaces";
 
 type ICompanyContextProvider = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 type ICompanyContextValues = {
   createCompany: (data: ICreateData) => void;
   login: (data: ILoguin) => void;
+  getCompanyDataByToken:  (token:string) => void;
+  company: ICompany 
+  recharge: boolean  
+  setRecharge : Dispatch<React.SetStateAction<boolean>>
 };
 
 const CompanyContext = createContext<ICompanyContextValues>(
@@ -21,6 +26,10 @@ const CompanyContext = createContext<ICompanyContextValues>(
 
 const CompanyContextProvider = ({ children }: ICompanyContextProvider) => {
   const navigate = useNavigate();
+
+  const [ company ,  setCompany ] = useState({} as ICompany)
+  const [ recharge ,  setRecharge ] = useState(false as boolean)
+
   const createCompany = async (data: ICreateData) => {
     try {
       await api.post("company", data);
@@ -86,12 +95,24 @@ const CompanyContextProvider = ({ children }: ICompanyContextProvider) => {
     }
   };
 
-  const getCompanyDataByToken 
-
-
+  const getCompanyDataByToken = async (token:string) =>{
+    try {
+      const res = await api.get("company", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }})
+  
+        setCompany(res.data)
+      
+    } catch (error) {
+      console.error(error)
+      navigate("/")
+      
+    }
+  }
 
   return (
-    <CompanyContext.Provider value={{ createCompany, login }}>
+    <CompanyContext.Provider value={{ createCompany, login, getCompanyDataByToken, company,  recharge ,  setRecharge }}>
       {children}
     </CompanyContext.Provider>
   );

@@ -1,7 +1,7 @@
 
-import { z } from "zod"
+import { ZodSchema, z } from "zod"
 
-const companySchema = z.object({
+const companySchema: ZodSchema = z.object({
     
     //@Column({unique: true, length: 120})
     companyName:z.string().max(120).nonempty("this field cannot be empty"),
